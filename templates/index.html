@@ -1,66 +1,136 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Placement Predictor</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Price Prediction</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 60px;
-            background: #f4f6f9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
         }
         h1 {
             color: #333;
+            text-align: center;
+            margin-bottom: 1.5rem;
         }
         form {
-            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
         }
-        input, select {
-            padding: 10px;
-            margin: 10px;
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 600;
+        }
+        input[type="number"] {
+            padding: 0.75rem;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            border: 1px solid #aaa;
-            width: 250px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #007bff;
         }
         button {
-            padding: 10px 20px;
-            background: #007bff;
+            padding: 0.8rem;
+            background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
+            font-size: 1.1rem;
             cursor: pointer;
-            margin-top: 15px;
+            transition: background-color 0.2s;
+            margin-top: 1rem;
         }
         button:hover {
-            background: #0056b3;
+            background-color: #0056b3;
         }
         .result {
-            margin-top: 30px;
-            font-size: 20px;
-            color: #222;
-            font-weight: bold;
+            margin-top: 2rem;
+            text-align: center;
+            padding: 1rem;
+            background-color: #e9f5ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 5px;
+        }
+        .result h2 {
+            color: #0056b3;
+            margin: 0;
         }
     </style>
 </head>
 <body>
-    <h1>Placement Predictor (Logistic Regression)</h1>
-    <form action="/predict" method="post">
-        <input type="number" step="any" name="iq" placeholder="IQ" required><br>
-        <input type="number" step="any" name="prev_sem" placeholder="Prev Sem Result" required><br>
-        <input type="number" step="any" name="cgpa" placeholder="CGPA" required><br>
-        <input type="number" step="any" name="academic_perf" placeholder="Academic Performance" required><br>
-        <select name="internship" required>
-            <option value="0">No Internship</option>
-            <option value="1">Internship</option>
-        </select><br>
-        <input type="number" step="any" name="extra_curricular" placeholder="Extra Curricular Score" required><br>
-        <input type="number" step="any" name="communication" placeholder="Communication Skills" required><br>
-        <input type="number" step="any" name="projects" placeholder="Projects Completed" required><br>
-        <button type="submit">Predict</button>
-    </form>
+    <div class="container">
+        <h1>🚗 Car Price Predictor</h1>
+        <form action="/" method="post">
+            <div class="input-group">
+                <label for="yr_mfr">Year of Manufacture</label>
+                <input type="number" id="yr_mfr" name="yr_mfr" placeholder="e.g., 2018" required>
+            </div>
+            <div class="input-group">
+                <label for="kms_run">Kilometers Run</label>
+                <input type="number" id="kms_run" name="kms_run" placeholder="e.g., 50000" required>
+            </div>
+            <div class="input-group">
+                <label for="total_owners">Number of Previous Owners</label>
+                <input type="number" id="total_owners" name="total_owners" placeholder="e.g., 1" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="fuel_type">Fuel Type (Numerical Code)</label>
+                <input type="number" id="fuel_type" name="fuel_type" placeholder="e.g., 0 for Petrol, 1 for Diesel" required>
+            </div>
+            <div class="input-group">
+                <label for="body_type">Body Type (Numerical Code)</label>
+                <input type="number" id="body_type" name="body_type" placeholder="e.g., 0 for Hatchback" required>
+            </div>
+            <div class="input-group">
+                <label for="transmission">Transmission (Numerical Code)</label>
+                <input type="number" id="transmission" name="transmission" placeholder="e.g., 0 for Manual" required>
+            </div>
+            <div class="input-group">
+                <label for="registered_state">State (Numerical Code)</label>
+                <input type="number" id="registered_state" name="registered_state" placeholder="e.g., 0 for Maharashtra" required>
+            </div>
+            <div class="input-group">
+                <label for="make">Car Make (Numerical Code)</label>
+                <input type="number" id="make" name="make" placeholder="e.g., 0 for Maruti" required>
+            </div>
+            <div class="input-group">
+                <label for="model">Car Model (Numerical Code)</label>
+                <input type="number" id="model" name="model" placeholder="e.g., 0 for Swift" required>
+            </div>
+            
+            <button type="submit">Predict Price</button>
+        </form>
 
-    <div class="result">
-        {{ prediction_text }}
+        {% if prediction_text %}
+            <div class="result">
+                <h2>{{ prediction_text }}</h2>
+            </div>
+        {% endif %}
     </div>
 </body>
 </html>
