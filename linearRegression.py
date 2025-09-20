@@ -5,7 +5,7 @@ import numpy as np
 app = Flask(__name__)
 
 # Load trained model
-with open("model_pip.pkl", "rb") as file:
+with open("model_pipeline.pkl", "rb") as file:
     model = pickle.load(file)
 
 @app.route('/')
