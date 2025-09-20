@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Placement Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 60px;
+            background: #f4f6f9;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input, select {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid #aaa;
+            width: 250px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 30px;
+            font-size: 20px;
+            color: #222;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Placement Predictor (Logistic Regression)</h1>
+    <form action="/predict" method="post">
+        <input type="number" step="any" name="iq" placeholder="IQ" required><br>
+        <input type="number" step="any" name="prev_sem" placeholder="Prev Sem Result" required><br>
+        <input type="number" step="any" name="cgpa" placeholder="CGPA" required><br>
+        <input type="number" step="any" name="academic_perf" placeholder="Academic Performance" required><br>
+        <select name="internship" required>
+            <option value="0">No Internship</option>
+            <option value="1">Internship</option>
+        </select><br>
+        <input type="number" step="any" name="extra_curricular" placeholder="Extra Curricular Score" required><br>
+        <input type="number" step="any" name="communication" placeholder="Communication Skills" required><br>
+        <input type="number" step="any" name="projects" placeholder="Projects Completed" required><br>
+        <button type="submit">Predict</button>
+    </form>
+
+    <div class="result">
+        {{ prediction_text }}
+    </div>
+</body>
+</html>
